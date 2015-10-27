@@ -6,7 +6,7 @@ import getpass
 from flask import Flask, request
 import sqlalchemy
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
