@@ -17,3 +17,6 @@ Set quantity to 0
 Interface with scale/camera
 
 Voice should be a client of this API
+
+Lower-level stuff:
+Get weight, get image

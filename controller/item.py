@@ -1,25 +1,25 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from sqlalchemy import Column, Integer, String, DateTime, Enum
+from app import Base
 
 class Item(Base):
     __tablename__ = 'Item'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    amount = Column(Integer)
-    unit = Column(String) # Todo: Change to enum
+    label = Column(String)
+    amount = Column(Float)
+    unit = Column(Enum("Count", "Kilogram", "Liters"))
     expiration = Column(DateTime)
+    picture_id = Column(Integer)
 
-    def __init__(name, amount, unit, expiration):
-        self.name = name
+    def __init__(label, amount, unit, expiration, picture_id):
+        self.label = label
         self.amount = amount
         self.unit = unit
         self.expiration = expiration
+        self.picture_id = picture_id
 
     def as_dict():
-        return { 'name' : name,
+        return { 'label' : label,
                  'amount' : amount,
                  'unit' : unit,
                  'expiration' :
@@ -27,4 +27,3 @@ class Item(Base):
                     'month' : expiration.month(),
                     'day' : expiration.day(), }
                }
-
