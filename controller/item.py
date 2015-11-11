@@ -11,14 +11,14 @@ class Item(Base):
     expiration = Column(DateTime)
     picture_id = Column(Integer)
 
-    def __init__(label, amount, unit, expiration, picture_id):
+    def __init__(self, label, amount, unit, expiration, picture_id):
         self.label = label
         self.amount = amount
         self.unit = unit
         self.expiration = expiration
         self.picture_id = picture_id
 
-    def as_dict():
+    def as_dict(self):
         return { 'label' : label,
                  'amount' : amount,
                  'unit' : unit,

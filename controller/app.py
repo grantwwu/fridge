@@ -30,7 +30,7 @@ def dbSession():
 
 @app.route("/", methods=['GET', 'POST'])
 def hello():
-    return "Hello World!"
+    return json.dumps("{ 'status' : 'success' }")
 
 @app.route("/add", methods=['POST'])
 def add_item():
