@@ -2,17 +2,17 @@ import simplejson as json
 import datetime
 
 import getpass
-import cv2
+# import cv2
 import sys
 sys.path.insert(0, '/home/matt/Downloads/wiibalance/cwiid/python/build/lib.linux-x86_64-2.7/')
-import cwiid
+# import cwiid
 import time
-import wiiweight
+# import wiiweight
 
 from flask import Flask, request
 import sqlalchemy
 
-from prologue import makeSession
+from prologue import makeSession, defer_create
 from item import Item
 
 #Builtin webcam for laptop is 0, usb cam is 1
@@ -20,7 +20,7 @@ camera_port = 0
 #image ID
 imgID = -1
 #Initialize camera
-webcam = cv2.VideoCapture(camera_port)
+# webcam = cv2.VideoCapture(camera_port)
 
 app = Flask(__name__)
 
@@ -62,47 +62,47 @@ def weight():
     # TODO: Finish this
     pass
 
-def get_image():
+# def get_image():
     #Gets image from webcam
-    retval, img = webcam.read()
-    return img
+#    retval, img = webcam.read()
+#    return img
 
-@app.route("/take_picture", methods=['POST'])
-def take_picture():
-    # TODO: Finish this
-    # Should return a picture ID
-    global webcam
-    global imgID
-
-    #throw away frames for camera adjustment
-    ramp_frames = 30
-
-    #Increment imgID counter
-    imgID += 1
-
-    for i in xrange(ramp_frames):
-        temp = get_image()
-
-    print("Taking Image...")
-
-    captureimg = get_image()
-
-    #File to write to
-    file = "../../images/img" + str(imgID) + ".png"
-
-    cv2.imwrite(file, captureimg)
-
-    # Release webcam for additional pictures
-    del (webcam)
-
-    return imgID
-    pass
+# @app.route("/take_picture", methods=['POST'])
+# def take_picture():
+#     # TODO: Finish this
+#     # Should return a picture ID
+#     global webcam
+#     global imgID
+#
+#     #throw away frames for camera adjustment
+#     ramp_frames = 30
+#
+#     #Increment imgID counter
+#     imgID += 1
+#
+#     for i in xrange(ramp_frames):
+#         temp = get_image()
+#
+#     print("Taking Image...")
+#
+#     captureimg = get_image()
+#
+#     #File to write to
+#     file = "../../images/img" + str(imgID) + ".png"
+#
+#     cv2.imwrite(file, captureimg)
+#
+#     # Release webcam for additional pictures
+#     del (webcam)
+#
+#     return imgID
+#     pass
 
 @app.route("/pictures/<int:picture_id>/", methods=['GET'])
 def get_picture(picture_id):
     pass
 
-take_picture()
+#take_picture()
 #wiiweight.get_weight()
 
 if __name__ == "__main__":

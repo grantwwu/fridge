@@ -7,7 +7,7 @@ class Item(Base):
     id = Column(Integer, primary_key=True)
     label = Column(String)
     amount = Column(Float)
-    unit = Column(Enum("Count", "Kilogram", "Liters"))
+    unit = Column(Enum("Count", "Kilogram", "Liters", name="Units"))
     expiration = Column(DateTime)
     picture_id = Column(Integer)
 
@@ -19,11 +19,11 @@ class Item(Base):
         self.picture_id = picture_id
 
     def as_dict(self):
-        return { 'label' : label,
-                 'amount' : amount,
-                 'unit' : unit,
+        return { 'label' : self.label,
+                 'amount' : self.amount,
+                 'unit' : self.unit,
                  'expiration' :
-                  { 'year' : expiration.year(),
-                    'month' : expiration.month(),
-                    'day' : expiration.day(), }
+                  { 'year' : self.expiration.year,
+                    'month' : self.expiration.month,
+                    'day' : self.expiration.day, }
                }
