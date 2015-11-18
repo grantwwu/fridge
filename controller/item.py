@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Enum
-from app import Base
+from sqlalchemy import Column, Integer, Float, String, DateTime, Enum
+from prologue import Base
 
 class Item(Base):
     __tablename__ = 'Item'
