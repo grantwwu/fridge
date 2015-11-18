@@ -1,4 +1,4 @@
-Use Python 3
+Use Python 2 for compatibility with the Wii board stuff :'(
 
 API should let you:
 

@@ -1,9 +1,5 @@
-from sqlalchemy import Column, Integer, String, DateTime, Enum, Float
-
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
-
+from sqlalchemy import Column, Integer, Float, String, DateTime, Enum
+from prologue import Base
 
 class Item(Base):
     __tablename__ = 'Item'
@@ -11,7 +7,7 @@ class Item(Base):
     id = Column(Integer, primary_key=True)
     label = Column(String)
     amount = Column(Float)
-    unit = Column(Enum("Count", "Kilogram", "Liters", name="unit"))
+    unit = Column(Enum("Count", "Kilogram", "Liters"))
     expiration = Column(DateTime)
     picture_id = Column(Integer)
 
@@ -23,11 +19,11 @@ class Item(Base):
         self.picture_id = picture_id
 
     def as_dict(self):
-        return { 'label' : self.label,
-                 'amount' : self.amount,
-                 'unit' : self.unit,
+        return { 'label' : label,
+                 'amount' : amount,
+                 'unit' : unit,
                  'expiration' :
-                  { 'year' : self.expiration.year,
-                    'month' : self.expiration.month,
-                    'day' : self.expiration.day, }
+                  { 'year' : expiration.year(),
+                    'month' : expiration.month(),
+                    'day' : expiration.day(), }
                }
