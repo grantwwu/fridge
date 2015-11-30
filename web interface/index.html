@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <title>Grid Component</title>
+    <link type="text/css" href="style.css" rel="stylesheet" />
+</head>
+<body>
+   
+    <section>
+        <form action="/add" method="POST">
+            <table>
+                <thead>
+                    <tr>
+                       <th colspan="4">Fridge contents</th>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <th>Product name</th>
+                        <th>Units</th>
+                        <th>Weight</th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <input type="date"  required="required" name="date" size="12" />
+                        </th>
+                        <th>
+                            <input type="text" name="label" size="20" />
+                        </th>
+                        <th>
+                            <input type="text" name="unit" size="10" />
+                        </th>
+                        <th>
+                            <input type="text" name="amount" size="12" />
+                        </th>
+                    
+                    </tr>
+                </thead>
+                <tfoot>
+    
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>10/12/2015</td>
+                        <td>apples</td>
+                        <td>5</td>
+                        <td>2 kg</td>
+                       
+                      
+                    </tr>
+                    <tr>
+                        <td>10/12/2015</td>
+                        <td>eggs</td>
+                        <td>7</td>
+                        <td>0.6 kg</td>
+                   
+                       
+                    </tr>
+                    <tr>
+                        <td>10/12/2015</td>
+                        <td>carrots</td>
+                        <td>1</td>
+                        <td>0.2 kg</td>
+                 
+                      
+                    </tr>
+                    <tr>
+                        <td>10/12/2015</td>
+                        <td>milk</td>
+                        <td>1</td>
+                        <td>0.5 liters</td>
+                       
+                     
+                    </tr>
+                    <tr>
+                        <td>10/12/2015</td>
+                        <td>cheese</td>
+                        <td>1</td>
+                        <td>0.2 kg</td>
+             
+                      
+                    </tr>
+                        </td>    
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+
+        
+        <input type="submit" value="add" />
+    
+
+
+
+
+    </section>
+</body>
+</html>
