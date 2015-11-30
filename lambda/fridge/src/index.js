@@ -66,7 +66,7 @@ Fridge.prototype.eventHandlers.onSessionEnded = function (sessionEndedRequest, s
 };
 
 Fridge.prototype.intentHandlers = {
-   GetItemsIntent: function (intent, session, response) {
+    GetItemsIntent: function (intent, session, response) {
         handleGetItemsRequest(response);
     },
 
@@ -83,7 +83,7 @@ Fridge.prototype.intentHandlers = {
 var baseUrl = "http://15291laptop.wv.cc.cmu.edu:5000/"
 
 function handleGetItemsRequest(response) {
-  /* var itemResponse = new XMLHttpResponse();
+  var itemResponse = new XMLHttpResponse();
   itemResponse.open( "GET", baseURL + "items", false);
   itemResponse.send(null);
   var items = JSON.parse(itemResponse.responseText);
@@ -93,9 +93,9 @@ function handleGetItemsRequest(response) {
   {
     item = items[i];
     speechOutput = speechOutput + item["amount"] + " " + item["unit"] + " of " + item["label"];
-  } */
+  }
 
-  response.tellWithCard("Test", "Fridge", "Test");
+  response.tell(speechOutput);
 }
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {
