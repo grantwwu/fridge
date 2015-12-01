@@ -113,4 +113,4 @@ wiiweight.get_weight()
 
 if __name__ == "__main__":
     defer_create()
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0')
