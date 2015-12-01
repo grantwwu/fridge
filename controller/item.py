@@ -7,7 +7,7 @@ class Item(Base):
     id = Column(Integer, primary_key=True)
     label = Column(String)
     amount = Column(Float)
-    unit = Column(Enum("Count", "Kilogram", "Liters", name="Units"))
+    unit = Column(Enum("Count", "Kilogram", "Liter", name="Units"))
     expiration = Column(DateTime)
     picture_id = Column(Integer)
 

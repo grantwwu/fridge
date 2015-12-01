@@ -1,5 +1,90 @@
-def handler(event, context):
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
+from requests import post, get
+
+baseURL = 'http://grantwu.me:5000/'
+
+def _url(suffix):
+    return baseURL + suffix
+
+def item2text(item):
+    text = item['amount'] + ' '
+    if item['unit'] != 'Count':
+        text += item['unit']
+        # Pluralize unit
+        if item['amount'] > 0:
+            text += 's'
+        text += ' of '
+        text += item['label']
+    else:
+        if item['amount'] > 0:
+            text += pluralize(item['label'])
+        else:
+            text += item['label']
+    return text
+
+def get_items():
+    items = get(_url('items')).json()
+    if length(items) == 0:
+        return tellResponse('Your Fridge is empty!')
+    else:
+        text = 'You have '
+        text += ', '.join(item2text(i) for i in items[0:length(items)-1])
+        if length(items) > 1:
+            text += ' and ' + item2text(i)
+        return tellResponse(text)
+
+
+def handler(event, context):
+    request = event['request']
+    if request['type'] == 'LaunchRequest':
+        pass
+        # Go to help stuff
+    elif request['type'] == 'SessionEndedRequest':
+        pass
+    elif request['type'] == 'IntentRequest':
+        intent = request['intent']
+
+        if intent['name'] == 'GetItemIntent':
+            return get_items()
+        elif intent['name'] == 'AddItemIntent':
+            pass
+        elif intent['name'] == 'FindItemIntent':
+            pass
+        elif intent['name'] == 'RemoveItemIntent':
+            pass
+        elif intent['name'] == 'UpdateItemIntent':
+            pass
+        elif intent['name'] == 'DeleteItemIntent':
+            pass
+        elif intent['name'] == 'CheckExpirationFutureIntent':
+            pass
+        elif intent['name'] == 'CheckExpirationIntent':
+            pass
+        elif intent['name'] == 'CheckRunningLowIntent':
+            pass
+        elif intent['name'] == 'MakeRecipeIntent':
+            pass
+        elif intent['name'] == 'HelpIntent':
+            pass
+        else:
+            pass
+    else:
+        pass
+
+def tellResponse(text):
+    responseDict = { 'version' : '1.0',
+                     'sessionAttributes' : {},
+                     'response' : {
+                         'outputSpeech' : {
+                             'type' : 'PlainText',
+                             'text' : text
+                         }
+                     },
+                     'shouldEndSession' : True
+                   }
+    return responseDict
 
 # GetItemsIntent
 

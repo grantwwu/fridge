@@ -51,59 +51,65 @@ def list_items():
         ret = [i.as_dict() for i in items]
     return json.dumps(ret)
 
-@app.route("/items/<int:id>", methods=['GET'])
-def get_item(id):
-    with makeSession() as dbSession:
-        item = dbSession.query(Item).get(id)
-        return item
+@app.route("/items/<int:id>", methods=['GET', 'DELETE'])
+def get_or_delete_item(id):
+    if request.method == 'GET':
+        with makeSession() as dbSession:
+            item = dbSession.query(Item).get(id)
+            return item
+    else:
+        with makeSession() as dbSession:
+            item = dbSession.query(Item).get(id)
+            dbSession.delete(item)
+            return json.dumps({ 'status' : 'success' })
 
 @app.route("/weigh", methods=['GET'])
 def weight():
     # TODO: Finish this
     pass
 
-# def get_image():
-    #Gets image from webcam
-#    retval, img = webcam.read()
-#    return img
+def get_image():
+  #Gets image from webcam
+   retval, img = webcam.read()
+   return img
 
-# @app.route("/take_picture", methods=['POST'])
-# def take_picture():
-#     # TODO: Finish this
-#     # Should return a picture ID
-#     global webcam
-#     global imgID
-#
-#     #throw away frames for camera adjustment
-#     ramp_frames = 30
-#
-#     #Increment imgID counter
-#     imgID += 1
-#
-#     for i in xrange(ramp_frames):
-#         temp = get_image()
-#
-#     print("Taking Image...")
-#
-#     captureimg = get_image()
-#
-#     #File to write to
-#     file = "../../images/img" + str(imgID) + ".png"
-#
-#     cv2.imwrite(file, captureimg)
-#
-#     # Release webcam for additional pictures
-#     del (webcam)
-#
-#     return imgID
-#     pass
+@app.route("/take_picture", methods=['POST'])
+def take_picture():
+    # TODO: Finish this
+    # Should return a picture ID
+    global webcam
+    global imgID
+
+    #throw away frames for camera adjustment
+    ramp_frames = 30
+
+    #Increment imgID counter
+    imgID += 1
+
+    for i in xrange(ramp_frames):
+        temp = get_image()
+
+    print("Taking Image...")
+
+    captureimg = get_image()
+
+    #File to write to
+    file = "../../images/img" + str(imgID) + ".png"
+
+    cv2.imwrite(file, captureimg)
+
+    # Release webcam for additional pictures
+    del (webcam)
+
+    return imgID
+    pass
 
 @app.route("/pictures/<int:picture_id>/", methods=['GET'])
 def get_picture(picture_id):
     pass
 
-#take_picture()
-#wiiweight.get_weight()
+take_picture()
+wiiweight.get_weight()
 
 if __name__ == "__main__":
     defer_create()
