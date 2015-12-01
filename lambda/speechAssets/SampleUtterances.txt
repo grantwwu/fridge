@@ -1,0 +1,61 @@
+GetItemsIntent what is in the fridge
+GetItemsIntent what's in the fridge
+GetItemsIntent what do I have
+GetItemsIntent what items do I have
+GetItemsIntent what items are in the fridge
+GetItemsIntent what items do I have in the fridge
+GetItemsIntent what I have
+GetItemsIntent what are the contents of my fridge
+
+AddItemsIntent add an item
+AddItemsIntent add {Item}
+AddItemsIntent add a {Item}
+AddItemsIntent add an {Item}
+AddItemsIntent add some {Item}
+AddItemsIntent add {Number} {Item}
+AddItemsIntent add {Number} {Unit} of {Item}
+
+FindItemIntent how many {Item} do I have
+FindItemIntent how much {Item} do I have
+FindItemIntent lookup how much {Item} do I have
+FindItemIntent lookup how many {Item} do I have
+FindItemIntent how many {Item} I have
+FindItemIntent how much {Item} I have
+FindItemIntent lookup how much {Item} I have
+FindItemIntent lookup how many {Item} I have
+
+RemoveItemIntent remove {Item} from the fridge
+RemoveItemIntent remove {Item}
+RemoveItemIntent forget about {Item}
+RemoveItemIntent delete {Item}
+
+UpdateItemIntent I now have {Number} {Unit} {Item}
+UpdateItemIntent I now have {Number} {Item}
+UpdateItemIntent update how much {Item} I have
+
+DeleteItemIntent I'm out of {Item}
+DeleteItemIntent I am out of {Item}
+DeleteItemIntent there is no more {Item}
+DeleteItemIntent there's no more {Item}
+DeleteItemIntent delete {Item}
+DeleteItemIntent get rid of {Item}
+
+CheckExpirationFutureIntent what expires within the next {Duration}
+CheckExpirationFutureIntent what expires soon
+CheckExpirationFutureIntent what goes bad within the next {Duration}
+CheckExpirationFutureIntent what goes bad soon
+
+CheckExpirationIntent what is expired
+CheckExpirationIntent what has gone bad
+CheckExpirationIntent what's gone bad
+
+CheckRunningLowIntent what am I low on
+CheckRunningLowIntent what do I need to buy
+CheckRunningLowIntent what should I buy
+CheckRunningLowIntent what am I missing
+CheckRunningLowIntent what am I running low on
+
+MakeRecipeIntent can I make {Recipe}
+MakeRecipeIntent do I have what I need to make {Recipe}
+MakeRecipeIntent do I have everything to make {Recipe}
+MakeRecipeIntent do I need to buy anything for {Recipe}

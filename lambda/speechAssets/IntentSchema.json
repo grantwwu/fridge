@@ -1,0 +1,77 @@
+{
+  "intents": [
+    {
+      "intent": "GetItemsIntent"
+    },
+    {
+      "intent": "AddItemIntent",
+      "slots": [
+        { "name": "Number",
+          "type": "AMAZON.NUMBER" },
+        { "name": "Unit",
+          "type": "Unit" },
+        { "name": "Item",
+          "type": "FRIDGE.ITEM" }
+      ]
+    },
+    {
+      "intent": "FindItemIntent",
+      "slots": [
+        { "name": "Item",
+          "type": "FRIDGE.ITEM" }
+      ]
+    },
+    {
+      "intent": "RemoveItemIntent",
+      "slots": [
+        { "name": "Number",
+          "type": "AMAZON.NUMBER" },
+        { "name": "Unit",
+          "type": "Unit" },
+        { "name": "Item",
+          "type": "FRIDGE.ITEM" }
+      ]
+    },
+    {
+      "intent": "UpdateItemIntent",
+      "slots": [
+        { "name": "Number",
+          "type": "AMAZON.NUMBER" },
+        { "name": "Unit",
+          "type": "Unit" },
+        { "name": "Item",
+          "type": "FRIDGE.ITEM" }
+      ]
+    },
+    {
+      "intent": "DeleteItemIntent",
+      "slots": [
+        { "name": "Item",
+          "type": "FRIDGE.ITEM" }
+      ]
+    },
+    {
+      "intent": "CheckExpirationFutureIntent",
+      "slots": [
+        { "name": "Duration",
+          "type": "AMAZON.DURATION" }
+      ]
+    },
+    {
+      "intent": "CheckExpirationIntent"
+    },
+    {
+      "intent": "CheckRunningLowIntent"
+    },
+    {
+      "intent": "MakeRecipeIntent",
+      "slots": [
+        { "name": "Recipe",
+          "type": "FRIDGE.RECIPE" }
+      ]
+    },
+    {
+      "intent": "HelpIntent"
+    }
+  ]
+}
