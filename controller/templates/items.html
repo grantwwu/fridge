@@ -30,7 +30,7 @@
 	  return $.get("/items", {}, getcallback);
 	  }
 	  showGetResult(function(data){ getResult = data;});
-	  jQuery.ajaxSetup({async:true});
+	  // jQuery.ajaxSetup({async:true});
 	  console.log (getResult);
 	  var json_source = JSON.parse(getResult);
 	  for(var i=0;i<json_source.length;i++){
@@ -38,14 +38,14 @@
 			  var tempobj = object['expiration']['month'] + "/" + object['expiration']['day'] + "/" + object['expiration']['year'];
 			  json_source[i]['expiration'] = tempobj
 			  }
-	  
+
 	  var options = {
 	  source: json_source,
 	  rowClass: "classy",
 	  callback: function(){
 	  }
 	  };
-	  
+
 	  ///////////////////////////////
 	  // Test on a pre-existing table
 	  $("#dataTable").jsonTable({
@@ -53,24 +53,24 @@
 	  json : ['label', 'amount', 'unit', 'expiration', 'picture_id']
 	  });
 	  $("#dataTable").jsonTableUpdate(options);
-	  
+
 	  ///////////////////////////////
 	  // Test on a table not yet attached to the DOM
 	  //var testTable = $("<table></table>");
-	  
+
 	  //testTable.jsonTable({
 	  //head : ['N.', 'Product name','Amount','Units','Expiration','Image ID'],
 	  //json : ['*', 'label', 'amount', 'unit', 'expiration', 'picture_id'] // The '*' identity will be incremented at each line
 	  //});
-	  
+
 	  //testTable.jsonTableUpdate(options);
-	  
+
 	  //$("#container").append(testTable);
 
 	</script>
     <section>
       <form id="add_form" action="/add" method="POST">
-	
+
 	<table>
           <thead>
             <tr>
@@ -106,15 +106,15 @@
             </tr>
           </thead>
           <tfoot>
-	    
+
           </tfoot>
           <tbody>
-          
+
  	</tbody>
       </table>
       <button class="btn btn-lg btn-primary btn-block" type="button">Add</button>
       <updatebutton class="btn btn-lg btn-primary btn-block" type="updatebutton">Update</updatebutton>
-      
+
     </form>
   </section>
   <!-- /container -->
