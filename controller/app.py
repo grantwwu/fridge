@@ -45,19 +45,29 @@ def list_items():
         ret = [i.as_dict() for i in items]
     return json.dumps(ret)
 
-@app.route("/items/<int:id>", methods=['GET', 'DELETE'])
-def get_or_delete_item(id):
+@app.route("/items/<int:id>", methods=['GET', 'DELETE', 'POST'])
+def item_endpoint(id):
     if request.method == 'GET':
         with makeSession() as dbSession:
             item = dbSession.query(Item).get(id)
             dbSession.commit()
             return item
-    else:
+    elif request.method == 'DELETE':
         with makeSession() as dbSession:
             item = dbSession.query(Item).get(id)
             dbSession.delete(item)
             dbSession.commit()
             return json.dumps({ 'status' : 'success' })
+    elif request.method == 'POST':
+        with makeSession() as dbSession:
+            item = dbSession.query(Item).get(id)
+            amount = float(request.form['amount'])
+            unit = request.form['unit']
+            item.amount = amount
+            item.unit = unit
+            dbSession.commit()
+            return json.dumps({ 'status' : 'success' })
+
 
 @app.route("/weigh", methods=['GET'])
 def weight():
