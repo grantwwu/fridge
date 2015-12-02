@@ -101,7 +101,7 @@ def add_item(number, unit, item):
              'amount' : number,
              'unit' : unit,
              'expdate' : shitty_strftime(month, day, year),
-             'imgid' : picture_id }
+             'picture_id' : picture_id }
 
     post(_url('add'), data=form)
 
