@@ -7,7 +7,7 @@ import time
 
 class WiiWeight(object):
     debug = 0
-    
+
     #constructor/initializer of class
     def __init__( self ):
         self.wiimote = cwiid.Wiimote()
@@ -45,7 +45,7 @@ class WiiWeight(object):
             print "rtlow",self.getlowcal(self.named_calibration['right_top']),"rblow",self.getlowcal(self.named_calibration['right_bottom'])
             print "reading rt",self.readings['right_top']
         self.setzerovals(self.getlowcal(self.named_calibration['right_top']),self.getlowcal(self.named_calibration['right_bottom']),self.getlowcal(self.named_calibration['left_top']),self.getlowcal(self.named_calibration['left_bottom']))
-                  
+
     #Reads the weight from the cwiid package
     def readweight( self ):
         time.sleep(0.2)
@@ -92,12 +92,13 @@ class WiiWeight(object):
 			weight += 1700 * (reading + zeroval - calibration[0]) / (calibration[1] - calibration[0])
 		else:
 			weight += 1700 * (reading + zeroval - calibration[1]) / (calibration[2] - calibration[1]) + 1700
-                        
+
         if self.debug == 1:
             print "weight calculated pre-conversion", weight
             print "return val", self.converttolbs( weight / 100.0 )
 
-        return self.converttolbs( weight / 100.0 )
+        # return self.converttolbs( weight / 100.0 )
+        return weight / 100.0
 
     #Prints the sensor values
     def printvals( self ):
@@ -128,13 +129,13 @@ class WiiWeight(object):
             if (self.debug ==1):
                 print temp
             avg = avg + temp
-    
+
         avg = avg / (numreadings + 1)
         if (self.debug == 1) or (self.debug == 2):
             print "Average value", avg,"x value",x
-        
+
         return avg
-    
+
     #Weighted average putting more emphasis on later readings
     #uses weighted avg = (weighted avg + new reading)/2 for passed in number of readings
     def getweightedavgweight( self, numreadings ):
@@ -151,7 +152,7 @@ class WiiWeight(object):
                 wavg = temp
             else:
                 wavg = (wavg + temp)/2.0
-    
+
         if (self.debug == 1) or (self.debug == 2):
             print "Weighted Average val", wavg,"x value",x
 

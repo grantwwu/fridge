@@ -5,16 +5,12 @@ import simplejson as json
 import datetime
 
 import getpass
-import cwiid
-import time
-import wiiweight
 
-from flask import Flask, request
+from flask import Flask, request, send_file
 import sqlalchemy
 
 from prologue import makeSession, defer_create
 from item import Item
-
 
 app = Flask(__name__)
 
@@ -59,51 +55,38 @@ def get_or_delete_item(id):
 
 @app.route("/weigh", methods=['GET'])
 def weight():
-    # TODO: Finish this
-    pass
-
+    return json.dumps({ 'weight' : bb.getaverageweight(5) })
 
 @app.route("/take_picture", methods=['POST'])
 def take_picture():
-    # TODO: Finish this
-    # Should return a picture ID
-    global webcam
     global imgID
-
-    #throw away frames for camera adjustment
-    ramp_frames = 30
-
     #Increment imgID counter
     imgID += 1
 
-    for i in xrange(ramp_frames):
-        temp = get_image()
+    # File to write to
+    image_file = "../../images/img" + str(imgID) + ".png"
 
-    print("Taking Image...")
-
-    captureimg = get_image()
-
-    #File to write to
-    file = "../../images/img" + str(imgID) + ".png"
-
-    cv2.imwrite(file, captureimg)
-
-    # Release webcam for additional pictures
-    del (webcam)
+    tp.write_image(image_file)
 
     return json.dumps({ 'image_id' : imgID })
 
 @app.route("/pictures/<int:picture_id>/", methods=['GET'])
 def get_picture(picture_id):
-    pass
+    return send_file('../../images/img' + str(picture_id) + '.png')
 
-take_picture()
-wiiweight.get_weight()
-
-import sys
-sys.path.insert(0, '/home/matt/Downloads/wiibalance/cwiid/python/build/lib.linux-x86_64-2.7/')
-
+def init_camera_and_scale():
+    global Takepic
+    global WiiWeight
+    from takepic import Takepic
+    from wiiweight import WiiWeight
+    global tp
+    tp = Takepic(0)
+    global bb
+    bb = WiiWeight()
+    bb.calibrate()
 
 if __name__ == "__main__":
     defer_create()
+#    init_camera_and_scale()
+
     app.run(debug=False, host='0.0.0.0')
