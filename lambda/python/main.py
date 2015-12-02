@@ -16,13 +16,14 @@ def item2text(item):
     if item['unit'] != 'Count':
         text += item['unit']
         # Pluralize unit
-        if item['amount'] > 0:
+        if item['amount'] > 1:
             text += 's'
         text += ' of '
         text += item['label']
     else:
-        if item['amount'] > 0:
-            text += pluralize(item['label'])
+        if item['amount'] > 1:
+            # Shitty pluralization
+            text += item['label'] + 's'
         else:
             text += item['label']
     return text
