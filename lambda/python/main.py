@@ -80,7 +80,25 @@ def add_item(number, unit, item):
              'day' : day,
              'picture_id' : picture_id }
 
-    return post(_url('add'), data=form).json()
+    text = 'Added ' + item2text({'label' : item, 'amount' : number, 'unit' : unit})
+    return tellResponse(text)
+
+# FindItemIntent
+
+def find_item(item):
+    items = get(_url('items')).json()
+    for i in items:
+        if i['label'].lower() == i.lower():
+            text = 'You have ' + item2text(i)
+            return tellResponse(text)
+
+    return tellResponse('Sorry, fridge helper was unable to find that.')
+
+def remove_item(item):
+    post(_url('add'), data=form).json()
+
+
+
 
 def handler(event, context):
     request = event['request']
@@ -93,13 +111,11 @@ def handler(event, context):
         intent = request['intent']
 
         if intent['name'] == 'GetItemsIntent':
-            ret = get_items()
-            return ret
+            return get_items()
         elif intent['name'] == 'AddItemIntent':
-            ret = add_item(number, unit, item)
-            return ret
+            return add_item(number, unit, item)
         elif intent['name'] == 'FindItemIntent':
-            pass
+            return find_item(item)
         elif intent['name'] == 'RemoveItemIntent':
             pass
         elif intent['name'] == 'UpdateItemIntent':

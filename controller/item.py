@@ -19,7 +19,8 @@ class Item(Base):
         self.picture_id = picture_id
 
     def as_dict(self):
-        return { 'label' : self.label,
+        return { 'id' : self.id,
+                 'label' : self.label,
                  'amount' : self.amount,
                  'unit' : self.unit,
                  'expiration' :

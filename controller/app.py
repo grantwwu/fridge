@@ -1,10 +1,10 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import simplejson as json
 import datetime
 
 import getpass
-import cv2
-import sys
-sys.path.insert(0, '/home/matt/Downloads/wiibalance/cwiid/python/build/lib.linux-x86_64-2.7/')
 import cwiid
 import time
 import wiiweight
@@ -15,12 +15,6 @@ import sqlalchemy
 from prologue import makeSession, defer_create
 from item import Item
 
-#Builtin webcam for laptop is 0, usb cam is 1
-camera_port = 0
-#image ID
-imgID = -1
-#Initialize camera
-webcam = cv2.VideoCapture(camera_port)
 
 app = Flask(__name__)
 
@@ -68,10 +62,6 @@ def weight():
     # TODO: Finish this
     pass
 
-def get_image():
-  #Gets image from webcam
-   retval, img = webcam.read()
-   return img
 
 @app.route("/take_picture", methods=['POST'])
 def take_picture():
@@ -102,7 +92,6 @@ def take_picture():
     del (webcam)
 
     return json.dumps({ 'image_id' : imgID })
-    pass
 
 @app.route("/pictures/<int:picture_id>/", methods=['GET'])
 def get_picture(picture_id):
@@ -110,6 +99,10 @@ def get_picture(picture_id):
 
 take_picture()
 wiiweight.get_weight()
+
+import sys
+sys.path.insert(0, '/home/matt/Downloads/wiibalance/cwiid/python/build/lib.linux-x86_64-2.7/')
+
 
 if __name__ == "__main__":
     defer_create()
