@@ -6,7 +6,7 @@ import datetime
 
 import getpass
 
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, render_template
 import sqlalchemy
 
 from prologue import makeSession, defer_create
@@ -18,18 +18,22 @@ app = Flask(__name__)
 def hello():
     return json.dumps({ 'status' : 'success' })
 
-@app.route("/add", methods=['POST'])
+
+
+#127.0.0.1:5000/itempage gets you to this method
+@app.route('/itempage', methods=['GET'])
+def itempage():
+    return render_template('items.html')
+
+@app.route('/add', methods=['POST'])
 def add_item():
     with makeSession() as dbSession:
         label = request.form['label']
         amount = float(request.form['amount'])
         unit = request.form['unit']
-        year = int(request.form['year'])
-        month = int(request.form['month'])
-        day = int(request.form['day'])
-        picture_id = int(request.form['picture_id'])
-        new_item = Item(label, amount, unit,
-                        datetime.date(year, month, day), picture_id)
+        expdate = datetime.strptime(request.form['expdate'], "%m/%d/%Y")
+        picture_id = int(request.form['imgid'])
+        new_item = Item(label, amount, unit, expdate, picture_id)
         dbSession.add(new_item)
         dbSession.commit()
     return json.dumps({ 'status' : 'success' })

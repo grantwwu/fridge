@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Index page for Fridge">
+    <meta name="author" content="Matt Nulph">
+  <title>Grid Component</title>
+  <!-- Bootstrap core CSS -->
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link type="text/css" href="static/css/style.css" rel="stylesheet" />
+
+  <!-- Javascript for template -->
+  <script src="static/js/jquery-1.11.3.min.js"></script>
+  <script src="static/js/script.js"></script>
+  <script src="static/js/jsonTable.js"></script>
+
+</head>
+<body onload="add_form.reset();">
+   <table id="dataTable" style="color:red;"></table>
+	<div id="container"></div>
+	<script type="text/javascript">
+	  jQuery.ajaxSetup({async:false});
+	  var getResult;
+	  function showGetResult(getcallback) {
+	  return $.get("/items", {}, getcallback);
+	  }
+	  showGetResult(function(data){ getResult = data;});
+	  jQuery.ajaxSetup({async:true});
+	  console.log (getResult);
+	  var json_source = JSON.parse(getResult);
+	  console.log (json_source.length + "json length");
+	  for(var i=0;i<json_source.length;i++){
+			  var object = json_source[i];
+			  var tempobj = object['expiration']['month'] + "/" + object['expiration']['day'] + "/" + object['expiration']['year'];
+			  json_source[i]['expiration'] = tempobj
+			  }
+	  
+	  var options = {
+	  source: json_source,
+	  rowClass: "classy",
+	  callback: function(){
+	  }
+	  };
+	  
+	  ///////////////////////////////
+	  // Test on a pre-existing table
+	  $("#dataTable").jsonTable({
+	  head : ['Product name','Amount','Units','Expiration','Image ID'],
+	  json : ['label', 'amount', 'unit', 'expiration', 'picture_id']
+	  });
+	  $("#dataTable").jsonTableUpdate(options);
+	  
+	  ///////////////////////////////
+	  // Test on a table not yet attached to the DOM
+	  //var testTable = $("<table></table>");
+	  
+	  //testTable.jsonTable({
+	  //head : ['N.', 'Product name','Amount','Units','Expiration','Image ID'],
+	  //json : ['*', 'label', 'amount', 'unit', 'expiration', 'picture_id'] // The '*' identity will be incremented at each line
+	  //});
+	  
+	  //testTable.jsonTableUpdate(options);
+	  
+	  //$("#container").append(testTable);
+
+	</script>
+    <section>
+      <form id="add_form" action="/add" method="POST">
+	
+	<table>
+          <thead>
+            <tr>
+              <th colspan="5">Add to Fridge</th>
+            </tr>
+            <tr>
+              <th>Product name</th>
+              <th>Amount</th>
+              <th>Units</th>
+              <th>Expiration</th>
+              <th>Image ID</th>
+            </tr>
+            <tr>
+              <th>
+		<input type="text" id="txtLabel" name="label" required="required" placeholder="Item Label" size="20" />
+              </th>
+              <th>
+		<input type="number" id="intAmount" name="amount" required="required" placeholder="Amount" size="12" />
+              </th>
+              <th>
+		<select id="txtUnits" name="unit">
+		  <option value="Count">Count</option>
+		  <option value="Kilogram">Kilogram</option>
+		  <option value="Liter">Liter</option>
+		</select>
+              </th>
+              <th>
+		<input type="date" id="dateExpDate" name="expdate" required="required" placeholder="XX/XX/XXXX" size="12" />
+              </th>
+              <th>
+		<input type="int" id="intImgID" name="imgid" required="required" size="12" />
+              </th>
+            </tr>
+          </thead>
+          <tfoot>
+	    
+          </tfoot>
+          <tbody>
+          
+ 	</tbody>
+      </table>
+      <button class="btn btn-lg btn-primary btn-block" type="button">Add</button>
+      <updatebutton class="btn btn-lg btn-primary btn-block" type="updatebutton">Update</updatebutton>
+      
+    </form>
+  </section>
+  <!-- /container -->
+
+
+  <!-- Bootstrap core JavaScript
+       ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>
