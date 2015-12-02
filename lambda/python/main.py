@@ -80,6 +80,8 @@ def add_item(number, unit, item):
              'day' : day,
              'picture_id' : picture_id }
 
+    post(_url('add'), data=form)
+
     text = 'Added ' + item2text({'label' : item, 'amount' : number, 'unit' : unit})
     return tellResponse(text)
 
