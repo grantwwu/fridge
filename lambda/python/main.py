@@ -62,7 +62,7 @@ def add_item(number, unit, item):
         unit = 'Count'
     else:
         # Lol error handling
-        pass
+        return None
 
     picture_response = post(_url('take_picture')).json()
     picture_id = int(image_response['image_id'])

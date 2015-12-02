@@ -75,8 +75,6 @@ def get_picture(picture_id):
     return send_file('../../images/img' + str(picture_id) + '.png')
 
 def init_camera_and_scale():
-    global Takepic
-    global WiiWeight
     from takepic import Takepic
     from wiiweight import WiiWeight
     global tp
@@ -85,8 +83,27 @@ def init_camera_and_scale():
     bb = WiiWeight()
     bb.calibrate()
 
+def fake_camera_and_scale():
+    global tp
+    global bb
+    tp = FakeTP()
+    bb = FakeWiiWeight()
+
+class FakeTP(object):
+    def __init__(self):
+        pass
+    def write_image(self):
+        pass
+
+class FakeWiiWeight(object):
+    def __init__(self):
+        pass
+    def getaverageweight(readings):
+        return 1.0
+
 if __name__ == "__main__":
     defer_create()
+    fake_camera_and_scale()
 #    init_camera_and_scale()
 
     app.run(debug=False, host='0.0.0.0')
