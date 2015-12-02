@@ -30,8 +30,7 @@
 	  return $.get("/items", {}, getcallback);
 	  }
 	  showGetResult(function(data){ getResult = data;});
-	  // jQuery.ajaxSetup({async:true});
-	  console.log (getResult);
+	  //console.log (getResult);
 	  var json_source = JSON.parse(getResult);
 	  for(var i=0;i<json_source.length;i++){
 			  var object = json_source[i];
@@ -81,7 +80,6 @@
               <th>Amount</th>
               <th>Units</th>
               <th>Expiration</th>
-              <th>Image ID</th>
             </tr>
             <tr>
               <th>

@@ -25,6 +25,11 @@ def hello():
 def itempage():
     return render_template('items.html')
 
+#127.0.0.1:5000/itempage gets you to this method
+@app.route('/recipepage', methods=['GET'])
+def recipepage():
+    return render_template('recipe.html')
+
 @app.route('/add', methods=['POST'])
 def add_item():
     with makeSession() as dbSession:
