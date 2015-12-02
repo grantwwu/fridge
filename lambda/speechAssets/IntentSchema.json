@@ -40,6 +40,9 @@
       ]
     },
     {
+      "intent": "CheckExpirationFutureIntent"
+    },
+    {
       "intent": "CheckExpirationIntent"
     },
     {

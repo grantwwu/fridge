@@ -35,6 +35,7 @@ DeleteItemIntent get rid of {Item}
 
 UpdateItemIntent I now have {Number} {Unit} {Item}
 UpdateItemIntent I now have {Number} {Item}
+UpdateItemIntent I only have {Number} {Item}
 UpdateItemIntent update how much {Item} I have
 
 CheckExpirationFutureIntent what expires soon

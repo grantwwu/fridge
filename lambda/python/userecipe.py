@@ -4,7 +4,7 @@ import sys
 import Recipe
 
 def main():
-    
+
     #request = Recipe.Recipe()
     #RecipeData = request.gen_recipe_request(530115)
     #print request.gen_recipe_request(RecipeData)
@@ -15,15 +15,15 @@ def main():
     #print request2.gen_recipe_request(RecipeData2)
 
     request3 = Recipe.Recipe()
-    TitleKeyword = "Peach Cobbler"
+    TitleKeyword = "Mac And Cheese"
     RecipeData3 = request3.gen_search_title_request(TitleKeyword.replace(" ", "%20"))
     print request3.gen_recipe_request(RecipeData3)
 
-    
+
 
 #    for ingredients in RecipeData['Ingredients']:
 #        print ingredients['Name']
-    
+
 
 #    print data
 

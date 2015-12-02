@@ -6,6 +6,8 @@ import random
 
 from requests import post, get, delete
 
+import Recipe
+
 baseURL = 'http://grantwu.me:5000/'
 
 def _url(suffix):
@@ -164,9 +166,11 @@ def update_item(number, unit, item):
                 unit = 'Kilogram'
             else:
                 return None
-            form = { 'amount' : amount,
+            form = { 'amount' : number,
                      'unit' : unit }
-            delete(_url('items/' + str(id)), data=form)
+            post(_url('items/' + str(id)), data=form)
+            i['amount'] = number
+            i['unit'] = unit
             text = 'Updated:  ' + item2text(i)
             return tellResponse(text)
 
@@ -182,7 +186,7 @@ def check_expiration_future():
     if len(items) == 0:
         return tellResponse('Nothing expires in your fridge within a week.')
     elif len(items) == 1:
-        text = item2text(items[0]) + ' is expiring with a week'
+        text = item2text(items[0]) + ' is expiring within a week'
     else:
         text = ', '.join(item2text(i) for i in items[0:len(items)-1])
         text += ' and ' + item2text(items[len(items)-1])
@@ -199,7 +203,7 @@ def check_expiration():
     items = [i for i in items if expired(i)]
 
     if len(items) == 0:
-        return tellResponse('Nothing is expired in your drige.')
+        return tellResponse('Nothing is expired in your fridge.')
     elif len(items) == 1:
         text = item2text(items[0]) + ' is expired'
     else:
@@ -210,8 +214,16 @@ def check_expiration():
 
 def check_running_low():
     items = get(_url('items')).json()
-    eggs = [i for i in items if i['label'.lower()] == 'eggs'][0]
-    milk = [i for i in items if i['label'.lower()] == 'milk'][0]
+    eggs = [i for i in items if i['label'.lower()] == 'eggs']
+    if len(eggs) > 0:
+        eggs = eggs[0]
+    else:
+        eggs = { 'amount' : 0 }
+    milk = [i for i in items if i['label'.lower()] == 'milk']
+    if len(milk) > 0:
+        milk = milk[0]
+    else:
+        milk = { 'amount' : 0 }
     eggs_low = eggs['amount'] < 6
     milk_low = milk['amount'] < 1
     text = ''
@@ -226,6 +238,35 @@ def check_running_low():
             text = 'You need milk!'
 
     return tellResponse(text)
+
+def make_recipe(recipe):
+    items = get(_url('items')).json()
+    items = [i['label'].lower() for i in items]
+
+    recipe_request = Recipe.Recipe()
+    ingredients = recipe_request.gen_search_title_request(recipe.replace(' ', '%20'))
+    ingredients_have = [i for i in ingredients if i in items]
+    ingredients_missing = [i for i in ingredients if i not in items]
+    text = ''
+    if len(ingredients_have) == len(ingredients):
+        text = 'You have everything you need!'
+    else:
+        text = ''
+        if len(ingredients_have) == 1:
+            text += 'You have' + ingredients_have[0]
+        elif len(ingredients_have) >= 1:
+            text += 'You have '
+            text += ', '.join(ingredients_have[0:len(ingredients_have)-1])
+            text += ' and ' + ingredients_have[len(ingredients_have)-1]
+
+        text += '\n'
+
+        if len(ingredients_need) == 1:
+            text += 'You need' + ingredients_need[0]
+        elif len(ingredients_need) >= 1:
+            text += 'You need '
+            text += ', '.join(ingredients_need[0:len(ingredients_need)-1])
+            text += ' and ' + ingredients_need[len(ingredients_need)-1]
 
 def handler(event, context):
     request = event['request']
@@ -249,7 +290,7 @@ def handler(event, context):
             return find_item(item)
         elif intent['name'] == 'DeleteItemIntent':
             item = intent['slots']['Item'].get('value')
-            return remove_item(item)
+            return delete_item(item)
         elif intent['name'] == 'UpdateItemIntent':
             number = intent['slots']['Number'].get('value')
             unit = intent['slots']['Unit'].get('value')
