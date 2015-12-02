@@ -46,11 +46,13 @@ def get_or_delete_item(id):
     if request.method == 'GET':
         with makeSession() as dbSession:
             item = dbSession.query(Item).get(id)
+            dbSession.commit()
             return item
     else:
         with makeSession() as dbSession:
             item = dbSession.query(Item).get(id)
             dbSession.delete(item)
+            dbSession.commit()
             return json.dumps({ 'status' : 'success' })
 
 @app.route("/weigh", methods=['GET'])
