@@ -93,7 +93,7 @@ def add_item(number, unit, item):
 def find_item(item):
     items = get(_url('items')).json()
     for i in items:
-        if i['label'].lower() == i.lower():
+        if i['label'].lower() == item.lower():
             text = 'You have ' + item2text(i)
             return tellResponse(text)
 
