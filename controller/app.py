@@ -32,7 +32,7 @@ def add_item():
         amount = float(request.form['amount'])
         unit = request.form['unit']
         expdate = datetime.strptime(request.form['expdate'], "%m/%d/%Y")
-        picture_id = int(request.form['imgid'])
+        picture_id = int(request.form['picture_id'])
         new_item = Item(label, amount, unit, expdate, picture_id)
         dbSession.add(new_item)
         dbSession.commit()

@@ -30,7 +30,7 @@
 	  return $.get("/items", {}, getcallback);
 	  }
 	  showGetResult(function(data){ getResult = data;});
-	  jQuery.ajaxSetup({async:true});
+	  //jQuery.ajaxSetup({async:true});
 	  console.log (getResult);
 	  var json_source = JSON.parse(getResult);
 	  for(var i=0;i<json_source.length;i++){
@@ -101,7 +101,7 @@
 		<input type="date" id="dateExpDate" name="expdate" required="required" placeholder="XX/XX/XXXX" size="12" />
               </th>
               <th>
-		<input type="int" id="intImgID" name="imgid" required="required" size="12" />
+		<input type="int" id="intImgID" name="picture_id" required="required" size="12" />
               </th>
             </tr>
           </thead>
@@ -114,7 +114,7 @@
       </table>
       <button class="btn btn-lg btn-primary btn-block" type="button">Add</button>
       <updatebutton class="btn btn-lg btn-primary btn-block" type="updatebutton">Update</updatebutton>
-      
+      <modifybutton class="btn btn-lg btn-primary btn-block" type="modifybutton">Modify</modifybutton>
     </form>
   </section>
   <!-- /container -->
