@@ -38,7 +38,7 @@ def get_items():
     else:
         text = 'You have '
         text += ', '.join(item2text(i) for i in items[0:len(items)-1])
-        text += ' and ' + item2text(i)
+        text += ' and ' + item2text(items[len(items)-1])
     return tellResponse(text)
 
 # Alexa, tell fridge helper to add {number} {unit} of {item}
