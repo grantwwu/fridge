@@ -95,10 +95,16 @@ def find_item(item):
     return tellResponse('Sorry, fridge helper was unable to find that.')
 
 def remove_item(item):
-    post(_url('add'), data=form).json()
+    id = None
+    items = get(_url('items')).json()
+    for i in items:
+        if i['label'].lower() == i.lower():
+            id = i['id']
+            delete(_url('items/' + str(id)))
+            text = 'Deleted ' + item2text(i)
+            return tellResponse(text)
 
-
-
+    return tellResponse('Sorry, fridge helper was unable to find that.')
 
 def handler(event, context):
     request = event['request']
@@ -117,7 +123,7 @@ def handler(event, context):
         elif intent['name'] == 'FindItemIntent':
             return find_item(item)
         elif intent['name'] == 'RemoveItemIntent':
-            pass
+            return remove_item(item)
         elif intent['name'] == 'UpdateItemIntent':
             pass
         elif intent['name'] == 'DeleteItemIntent':
