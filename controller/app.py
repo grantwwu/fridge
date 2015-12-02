@@ -2,12 +2,12 @@ import simplejson as json
 import datetime
 
 import getpass
-# import cv2
+import cv2
 import sys
 sys.path.insert(0, '/home/matt/Downloads/wiibalance/cwiid/python/build/lib.linux-x86_64-2.7/')
-# import cwiid
+import cwiid
 import time
-# import wiiweight
+import wiiweight
 
 from flask import Flask, request
 import sqlalchemy
@@ -20,7 +20,7 @@ camera_port = 0
 #image ID
 imgID = -1
 #Initialize camera
-# webcam = cv2.VideoCapture(camera_port)
+webcam = cv2.VideoCapture(camera_port)
 
 app = Flask(__name__)
 
@@ -101,7 +101,7 @@ def take_picture():
     # Release webcam for additional pictures
     del (webcam)
 
-    return imgID
+    return json.dumps({ 'image_id' : imgID })
     pass
 
 @app.route("/pictures/<int:picture_id>/", methods=['GET'])

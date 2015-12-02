@@ -9,7 +9,7 @@
         { "name": "Number",
           "type": "AMAZON.NUMBER" },
         { "name": "Unit",
-          "type": "Unit" },
+          "type": "FRIDGE.UNIT" },
         { "name": "Item",
           "type": "FRIDGE.ITEM" }
       ]
@@ -27,7 +27,7 @@
         { "name": "Number",
           "type": "AMAZON.NUMBER" },
         { "name": "Unit",
-          "type": "Unit" },
+          "type": "FRIDGE.UNIT" },
         { "name": "Item",
           "type": "FRIDGE.ITEM" }
       ]
@@ -38,7 +38,7 @@
         { "name": "Number",
           "type": "AMAZON.NUMBER" },
         { "name": "Unit",
-          "type": "Unit" },
+          "type": "FRIDGE.UNIT" },
         { "name": "Item",
           "type": "FRIDGE.ITEM" }
       ]
@@ -48,13 +48,6 @@
       "slots": [
         { "name": "Item",
           "type": "FRIDGE.ITEM" }
-      ]
-    },
-    {
-      "intent": "CheckExpirationFutureIntent",
-      "slots": [
-        { "name": "Duration",
-          "type": "AMAZON.DURATION" }
       ]
     },
     {

@@ -7,7 +7,6 @@ GetItemsIntent what items do I have in the fridge
 GetItemsIntent what I have
 GetItemsIntent what are the contents of my fridge
 
-AddItemsIntent add an item
 AddItemsIntent add {Item}
 AddItemsIntent add a {Item}
 AddItemsIntent add an {Item}

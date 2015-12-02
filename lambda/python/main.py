@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from requests import post, get
+import json
+import random
+
+from requests import post, get, delete
 
 baseURL = 'http://grantwu.me:5000/'
 
@@ -9,7 +12,7 @@ def _url(suffix):
     return baseURL + suffix
 
 def item2text(item):
-    text = item['amount'] + ' '
+    text = str(item['amount']) + ' '
     if item['unit'] != 'Count':
         text += item['unit']
         # Pluralize unit
@@ -24,32 +27,77 @@ def item2text(item):
             text += item['label']
     return text
 
+# Alexa, ask fridge helper what I have
+#   You have ...
 def get_items():
     items = get(_url('items')).json()
-    if length(items) == 0:
+    if len(items) == 0:
         return tellResponse('Your Fridge is empty!')
+    elif len(items) == 1:
+        text = 'You have ' + item2text(items[0])
     else:
         text = 'You have '
-        text += ', '.join(item2text(i) for i in items[0:length(items)-1])
-        if length(items) > 1:
-            text += ' and ' + item2text(i)
-        return tellResponse(text)
+        text += ', '.join(item2text(i) for i in items[0:len(items)-1])
+        text += ' and ' + item2text(i)
+    return tellResponse(text)
 
+# Alexa, tell fridge helper to add {number} {unit} of {item}
+#   Taking picture...
+#   Added <number> <unit> <item>
+
+# Alexa, tell fridge helper to add {number} {item}
+#   Taking picture...
+#   Added <number> <item>
+
+# Alexa, tell fridge helper to add some {item}
+#   Taking picture and weighing item...
+#   Added <weight> of <item>.
+# TODO: Make this actually take an expiration
+def add_item(number, unit, item):
+    if not number and not unit and item:
+        weight_response = get(_url('weight')).json()
+        number = float(weight_response['weight'])
+        unit = 'Kilogram'
+    elif not unit and number and item:
+        unit = 'Count'
+    else:
+        # Lol error handling
+        pass
+
+    picture_response = post(_url('take_picture')).json()
+    picture_id = int(image_response['image_id'])
+
+    year = 2015
+    month = 12
+    day = random.randint(13, 31)
+
+    # Whoops, I haven't been super consistent in my naming...
+    form = { 'label' : item,
+             'amount' : number,
+             'unit' : unit,
+             'year' : year,
+             'month' : month,
+             'day' : day,
+             'picture_id' : picture_id }
+
+    return post(_url('add'), data=form).json()
 
 def handler(event, context):
     request = event['request']
     if request['type'] == 'LaunchRequest':
-        pass
+        print 'Getting LaunchRequest'
         # Go to help stuff
     elif request['type'] == 'SessionEndedRequest':
-        pass
+        print 'Getting SessionEndedRequest'
     elif request['type'] == 'IntentRequest':
         intent = request['intent']
 
-        if intent['name'] == 'GetItemIntent':
-            return get_items()
+        if intent['name'] == 'GetItemsIntent':
+            ret = get_items()
+            return ret
         elif intent['name'] == 'AddItemIntent':
-            pass
+            ret = add_item(number, unit, item)
+            return ret
         elif intent['name'] == 'FindItemIntent':
             pass
         elif intent['name'] == 'RemoveItemIntent':
@@ -69,8 +117,10 @@ def handler(event, context):
         elif intent['name'] == 'HelpIntent':
             pass
         else:
+            print 'Intent: ' + intent['name']
             pass
     else:
+        print request['type']
         pass
 
 def tellResponse(text):
@@ -86,25 +136,9 @@ def tellResponse(text):
                    }
     return responseDict
 
-# GetItemsIntent
-
-# Alexa, ask fridge helper what I have
-#   You have ...
 
 
-# AddItemIntent
 
-# Alexa, tell fridge helper to add {number} {unit} of {item}
-#   Taking picture...
-#   Added <number> <unit> <item>
-
-# Alexa, tell fridge helper to add {number} {item}
-#   Taking picture...
-#   Added <number> <item>
-
-# Alexa, tell fridge helper to add some {item}
-#   Taking picture and weighing item...
-#   Added <weight> of <item>.
 
 
 # RemoveItemIntent
