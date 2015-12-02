@@ -57,6 +57,8 @@ def get_or_delete_item(id):
 def weight():
     return json.dumps({ 'weight' : bb.getaverageweight(5) })
 
+imgID = 0
+
 @app.route("/take_picture", methods=['POST'])
 def take_picture():
     global imgID
@@ -92,13 +94,13 @@ def fake_camera_and_scale():
 class FakeTP(object):
     def __init__(self):
         pass
-    def write_image(self):
+    def write_image(self, filename):
         pass
 
 class FakeWiiWeight(object):
     def __init__(self):
         pass
-    def getaverageweight(readings):
+    def getaverageweight(self, readings):
         return 1.0
 
 if __name__ == "__main__":
@@ -106,4 +108,4 @@ if __name__ == "__main__":
     fake_camera_and_scale()
 #    init_camera_and_scale()
 
-    app.run(debug=False, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0')
