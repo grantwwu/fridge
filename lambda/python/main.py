@@ -101,7 +101,7 @@ def remove_item(item):
     id = None
     items = get(_url('items')).json()
     for i in items:
-        if i['label'].lower() == i.lower():
+        if i['label'].lower() == item.lower():
             id = i['id']
             delete(_url('items/' + str(id)))
             text = 'Deleted ' + item2text(i)
