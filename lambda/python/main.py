@@ -65,7 +65,7 @@ def add_item(number, unit, item):
         return None
 
     picture_response = post(_url('take_picture')).json()
-    picture_id = int(image_response['image_id'])
+    picture_id = int(picture_response['image_id'])
 
     year = 2015
     month = 12
