@@ -1,7 +1,7 @@
 $(function() {
     $('button').click(function() {
         var label = $('#txtLabel').val();
-	var amount = $('#intAmount').val();
+        var amount = $('#intAmount').val();
         var units = $('#txtUnits').val();
         var expdate = $('#dateExpDate').val();
         var imgid = $('#intImgID').val();

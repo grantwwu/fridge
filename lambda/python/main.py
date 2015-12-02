@@ -11,6 +11,13 @@ baseURL = 'http://grantwu.me:5000/'
 def _url(suffix):
     return baseURL + suffix
 
+# It only supports one format and doesn't pad input to mm/dd/yyyy.
+# This works because we only support times after the 10th of December of 2015
+# and before the 31st.
+# It's called shitty_stftime for a reason!!!  I was *extremely* lazy.
+def shitty_strftime(month, day, year):
+    return str(month) + '/' + str(day) + '/' + str(year)
+
 def canonicalize_unit(item):
     if not item:
         return None
@@ -83,7 +90,7 @@ def add_item(number, unit, item):
     unit = canonicalize_unit(unit)
 
     picture_response = post(_url('take_picture')).json()
-    picture_id = int(picture_response['image_id'])
+    picture_id = int(picture_response['picture_id'])
 
     year = 2015
     month = 12
@@ -93,10 +100,8 @@ def add_item(number, unit, item):
     form = { 'label' : item,
              'amount' : number,
              'unit' : unit,
-             'year' : year,
-             'month' : month,
-             'day' : day,
-             'picture_id' : picture_id }
+             'expdate' : shitty_strftime(month, day, year),
+             'imgid' : picture_id }
 
     post(_url('add'), data=form)
 
@@ -114,7 +119,9 @@ def find_item(item):
 
     return tellResponse('Sorry, fridge helper was unable to find that.')
 
-def remove_item(item):
+# DeleteItemIntent
+
+def delete_item(item):
     id = None
     items = get(_url('items')).json()
     for i in items:
@@ -125,6 +132,29 @@ def remove_item(item):
             return tellResponse(text)
 
     return tellResponse('Sorry, fridge helper was unable to find that.')
+
+# UpdateItemIntent
+
+# Alexa, tell fridge helper I now have {number} {units} of {item}
+#   Quantity of <item> updated to <number> <units>
+
+# Alexa, tell fridge helper I now have {number} {item}
+#   Quantity of <item> updated to <number>
+
+# Alexa, ask fridge helper to update how much {item} I have
+#   Updated weight of <item> to <number> kilograms
+
+def update_item(number, unit, item):
+    id = None
+    items = get(_url('items')).json()
+    for i in items:
+        if item and i['label'].lower() == item.lower():
+            id = i['id']
+
+            delete(_url('items/' + str(id)), form )
+            text = 'Updated:  ' + item2text(i)
+            return tellResponse(text)
+
 
 def handler(event, context):
     request = event['request']
@@ -146,13 +176,14 @@ def handler(event, context):
         elif intent['name'] == 'FindItemIntent':
             item = intent['slots']['Item'].get('value')
             return find_item(item)
-        elif intent['name'] == 'RemoveItemIntent':
+        elif intent['name'] == 'DeleteItemIntent':
             item = intent['slots']['Item'].get('value')
             return remove_item(item)
         elif intent['name'] == 'UpdateItemIntent':
-            pass
-        elif intent['name'] == 'DeleteItemIntent':
-            pass
+            number = intent['slots']['Number'].get('value')
+            unit = intent['slots']['Unit'].get('value')
+            item = intent['slots']['Item'].get('value')
+            return update_item(number, unit, item)
         elif intent['name'] == 'CheckExpirationFutureIntent':
             pass
         elif intent['name'] == 'CheckExpirationIntent':
@@ -185,28 +216,6 @@ def tellResponse(text):
 
 
 
-
-
-
-# RemoveItemIntent
-
-# Alexa, tell fridge helper to remove {number} {units} of {item}
-#   Removed <number> <units> of <item>
-
-# Alexa, tell fridge helper to remove {number} {item}
-#   Removed <number> <item>
-
-
-# UpdateItemIntent
-
-# Alexa, tell fridge helper I now have {number} {units} of {item}
-#   Quantity of <item> updated to <number> <units>
-
-# Alexa, tell fridge helper I now have {number} {item}
-#   Quantity of <item> updated to <number>
-
-# Alexa, ask fridge helper to update how much {item} I have
-#   Updated weight of <item> to <number> kilograms
 
 
 # DeleteItemIntent

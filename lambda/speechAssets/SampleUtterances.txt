@@ -23,25 +23,21 @@ FindItemIntent how much {Item} I have
 FindItemIntent lookup how much {Item} I have
 FindItemIntent lookup how many {Item} I have
 
-RemoveItemIntent remove {Item} from the fridge
-RemoveItemIntent remove {Item}
-RemoveItemIntent forget about {Item}
-RemoveItemIntent delete {Item}
+DeleteItemIntent remove {Item} from the fridge
+DeleteItemIntent remove {Item}
+DeleteItemIntent forget about {Item}
+DeleteItemIntent delete {Item}
+DeleteItemIntent I'm out of {Item}
+DeleteItemIntent I am out of {Item}
+DeleteItemIntent there is no more {Item}
+DeleteItemIntent there's no more {Item}
+DeleteItemIntent get rid of {Item}
 
 UpdateItemIntent I now have {Number} {Unit} {Item}
 UpdateItemIntent I now have {Number} {Item}
 UpdateItemIntent update how much {Item} I have
 
-DeleteItemIntent I'm out of {Item}
-DeleteItemIntent I am out of {Item}
-DeleteItemIntent there is no more {Item}
-DeleteItemIntent there's no more {Item}
-DeleteItemIntent delete {Item}
-DeleteItemIntent get rid of {Item}
-
-CheckExpirationFutureIntent what expires within the next {Duration}
 CheckExpirationFutureIntent what expires soon
-CheckExpirationFutureIntent what goes bad within the next {Duration}
 CheckExpirationFutureIntent what goes bad soon
 
 CheckExpirationIntent what is expired

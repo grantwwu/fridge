@@ -22,12 +22,8 @@
       ]
     },
     {
-      "intent": "RemoveItemIntent",
+      "intent": "DeleteItemIntent",
       "slots": [
-        { "name": "Number",
-          "type": "AMAZON.NUMBER" },
-        { "name": "Unit",
-          "type": "FRIDGE_UNIT" },
         { "name": "Item",
           "type": "FRIDGE_ITEM" }
       ]
@@ -39,13 +35,6 @@
           "type": "AMAZON.NUMBER" },
         { "name": "Unit",
           "type": "FRIDGE_UNIT" },
-        { "name": "Item",
-          "type": "FRIDGE_ITEM" }
-      ]
-    },
-    {
-      "intent": "DeleteItemIntent",
-      "slots": [
         { "name": "Item",
           "type": "FRIDGE_ITEM" }
       ]

@@ -32,7 +32,7 @@ def add_item():
         amount = float(request.form['amount'])
         unit = request.form['unit']
         expdate = datetime.strptime(request.form['expdate'], "%m/%d/%Y")
-        picture_id = int(request.form['imgid'])
+        picture_id = int(request.form['picture_id'])
         new_item = Item(label, amount, unit, expdate, picture_id)
         dbSession.add(new_item)
         dbSession.commit()
@@ -73,20 +73,20 @@ def item_endpoint(id):
 def weight():
     return json.dumps({ 'weight' : bb.getaverageweight(5) })
 
-imgID = 0
+picture_id = 0
 
 @app.route("/take_picture", methods=['POST'])
 def take_picture():
-    global imgID
-    #Increment imgID counter
-    imgID += 1
+    global picture_id
+    # Increment picture_id counter
+    picture_id += 1
 
     # File to write to
-    image_file = "../../images/img" + str(imgID) + ".png"
+    image_file = "../../images/img" + str(picture_id) + ".png"
 
     tp.write_image(image_file)
 
-    return json.dumps({ 'image_id' : imgID })
+    return json.dumps({ 'picture_id' : picture_id })
 
 @app.route("/pictures/<int:picture_id>/", methods=['GET'])
 def get_picture(picture_id):

@@ -27,5 +27,5 @@ class Item(Base):
                   { 'year' : self.expiration.year,
                     'month' : self.expiration.month,
                     'day' : self.expiration.day, },
-                 'imgid' : picture_id
+                 'picture_id' : picture_id
                }
