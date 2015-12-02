@@ -244,16 +244,17 @@ def make_recipe(recipe):
     items = [i['label'].lower() for i in items]
 
     recipe_request = Recipe.Recipe()
-    ingredients = recipe_request.gen_search_title_request(recipe.replace(' ', '%20'))
+    keywords = recipe_request.gen_search_title_request(recipe.replace(' ', '%20'))
+    ingredients = recipe_request.gen_recipe_request(keywords)
     ingredients_have = [i for i in ingredients if i in items]
-    ingredients_missing = [i for i in ingredients if i not in items]
+    ingredients_need = [i for i in ingredients if i not in items]
     text = ''
     if len(ingredients_have) == len(ingredients):
         text = 'You have everything you need!'
     else:
         text = ''
         if len(ingredients_have) == 1:
-            text += 'You have' + ingredients_have[0]
+            text += 'You have ' + ingredients_have[0]
         elif len(ingredients_have) >= 1:
             text += 'You have '
             text += ', '.join(ingredients_have[0:len(ingredients_have)-1])
@@ -267,6 +268,8 @@ def make_recipe(recipe):
             text += 'You need '
             text += ', '.join(ingredients_need[0:len(ingredients_need)-1])
             text += ' and ' + ingredients_need[len(ingredients_need)-1]
+
+    return tellResponse(text)
 
 def handler(event, context):
     request = event['request']
@@ -303,6 +306,7 @@ def handler(event, context):
         elif intent['name'] == 'CheckRunningLowIntent':
             return check_running_low()
         elif intent['name'] == 'MakeRecipeIntent':
+            recipe = intent['slots']['Recipe'].get('value')
             return make_recipe(recipe)
         elif intent['name'] == 'HelpIntent':
             pass
