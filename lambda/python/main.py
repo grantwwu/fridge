@@ -61,6 +61,8 @@ def add_item(number, unit, item):
         unit = 'Kilogram'
     elif not unit and number and item:
         unit = 'Count'
+    elif number and unit and item:
+        pass
     else:
         # Lol error handling
         return None
