@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 import simplejson as json
-import datetime
+from datetime import date, datetime
 
 import getpass
 
