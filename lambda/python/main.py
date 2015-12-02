@@ -11,6 +11,19 @@ baseURL = 'http://grantwu.me:5000/'
 def _url(suffix):
     return baseURL + suffix
 
+def canonicalize_unit(item):
+    if not item:
+        return None
+    else:
+        if item[0] == 'l' or item[0] == 'L':
+            return 'Liter'
+        elif item[0] == 'k' or item[0] == 'K':
+            return 'Kilogram'
+        elif item[0] == 'c' or item[0] == 'C':
+            return 'Count'
+        else:
+            return None
+
 def item2text(item):
     text = str(item['amount']) + ' '
     if item['unit'] != 'Count':
@@ -67,6 +80,8 @@ def add_item(number, unit, item):
         # Lol error handling
         return None
 
+    unit = canonicalize_unit(unit)
+
     picture_response = post(_url('take_picture')).json()
     picture_id = int(picture_response['image_id'])
 
@@ -93,7 +108,7 @@ def add_item(number, unit, item):
 def find_item(item):
     items = get(_url('items')).json()
     for i in items:
-        if i['label'].lower() == item.lower():
+        if item and i['label'].lower() == item.lower():
             text = 'You have ' + item2text(i)
             return tellResponse(text)
 
@@ -103,7 +118,7 @@ def remove_item(item):
     id = None
     items = get(_url('items')).json()
     for i in items:
-        if i['label'].lower() == item.lower():
+        if item and i['label'].lower() == item.lower():
             id = i['id']
             delete(_url('items/' + str(id)))
             text = 'Deleted ' + item2text(i)
