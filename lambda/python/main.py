@@ -8,7 +8,7 @@ from requests import post, get, delete
 
 import Recipe
 
-baseURL = 'http://grantwu.me:5000/'
+baseURL = 'http://15291laptop.wv.cc.cmu.edu:5000/'
 
 def _url(suffix):
     return baseURL + suffix
