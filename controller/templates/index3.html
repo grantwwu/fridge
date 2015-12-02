@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Index page for Fridge">
+    <meta name="author" content="Matt Nulph">
+  <title>Grid Component</title>
+  <!-- Bootstrap core CSS -->
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link type="text/css" href="static/css/style.css" rel="stylesheet" />
+
+  <!-- Javascript for template -->
+  <script src="static/js/jquery-1.11.3.min.js"></script>
+  <script src="static/js/script.js"></script>
+  <script src="static/js/jsonTable.js"></script>
+
+</head>
+<body>
+  <section>
+    <form action="/add" method="POST">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="5">Fridge contents</th>
+          </tr>
+          <tr>
+            <th>Product name</th>
+            <th>Amount</th>
+            <th>Units</th>
+            <th>Expiration</th>
+            <th>Image ID</th>
+          </tr>
+          <tr>
+            <th>
+              <input type="text" id="txtLabel" name="label" required="required" placeholder="Item Label" size="20" />
+            </th>
+            <th>
+	      <input type="number" id="intAmount" name="amount" required="required" placeholder="Amount" size="12" />
+            </th>
+            <th>
+	      <input type="text" id="txtUnits" name="units" required="required" placeholder="Count|Kilogram|Liters|Units" size="10" pattern="(Count|Kilogram|Liters|Units)" />
+            </th>
+            <th>
+	      <input type="date" id="dateExpDate" name="expdate" required="required" placeholder="XX/XX/XXXX" size="12" />
+            </th>
+            <th>
+	      <input type="int" id="intImgID" name="imgid" required="required" size="12" />
+            </th>
+          </tr>
+        </thead>
+        <tfoot>
+	  
+        </tfoot>
+        <tbody>
+          <tr>
+            <td>apples</td>
+            <td>5</td>
+	    <td>Count</td>
+	    <td>10/12/2015</td>
+            <td>1</td>
+            
+            
+          </tr>
+          <tr>
+            <td>eggs</td>
+            <td>12</td>
+	    <td>Count</td>
+	    <td>10/12/2015</td>
+            <td>2</td>
+                        
+            
+          </tr>
+          <tr>
+            <td>carrots</td>
+            <td>1</td>
+	    <td>Count</td>
+	    <td>10/12/2015</td>
+            <td>3</td>
+                        
+            
+          </tr>
+          <tr>
+            <td>milk</td>
+            <td>0.5</td>
+            <td>Liters</td>
+            <td>10/12/2015</td>
+            <td>4</td>
+
+
+          </tr>
+          <tr>
+            <td>cheese</td>
+            <td>0.2</td>
+            <td>Kilogram</td>
+	    <td>10/12/2015</td>
+	    <td>5</td>
+
+
+          </tr>
+	</tbody>
+      </table>
+      <button class="btn btn-lg btn-primary btn-block" type="button">Add</button>
+    </form>
+  </section>
+  <!-- /container -->
+
+
+  <!-- Bootstrap core JavaScript
+       ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>
