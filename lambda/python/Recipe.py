@@ -1,19 +1,18 @@
 #!/usr/bin/python
 import json, requests
-import sys
 
 #Class to do all recipe/item lookup functions
 class Recipe(object):
-    
+
     def __init__( self ):
         self.api_key = "****************************"
         self.recipe_base_url = "http://api.bigoven.com/recipe/"
         self.search_base_url = "http://api.bigoven.com/recipes?pg=1&rpp=25&"
-        
+
     #Makes the ingredient list by the data that is returned from the recipe request
     def make_ing_list( self, jsondat ):
         inglist =[]
-        
+
         for ingredients in jsondat['Ingredients']:
             inglist.append(ingredients['Name'])
 
@@ -39,7 +38,7 @@ class Recipe(object):
         data = json.loads(resp.text)
 
         return self.make_ing_list(data)
-        
+
     #For use when searching for a recipe with any keyword in the title
     #Example: Fried Pickles
     #Accuracy: Not too good.  Weird results are returned as this feature is much more expensive.
@@ -53,7 +52,7 @@ class Recipe(object):
         data = json.loads(resp.text)
 
         return self.get_recipe_id(data)
-    
+
     #For use when searching for a recipe title
     #Example:Peach Cobbler...To satisfy a question to Alexa like "Alexa, Can Fridge make peach cobbler?"
     #Accuracy: Very good.  This can be used to return search for ingredients in a recipe
@@ -67,4 +66,4 @@ class Recipe(object):
 
         return self.get_recipe_id(data)
 
-        
+

@@ -121,6 +121,8 @@ def find_item(item):
 
 # DeleteItemIntent
 
+# Alexa, tell fridge helper I'm out of {item}
+
 def delete_item(item):
     id = None
     items = get(_url('items')).json()
@@ -150,11 +152,80 @@ def update_item(number, unit, item):
     for i in items:
         if item and i['label'].lower() == item.lower():
             id = i['id']
-
-            delete(_url('items/' + str(id)), form )
+            if number and unit:
+               number = float(number)
+               unit = canonicalize_unit(unit)
+            elif number and not unit:
+                number = float(number)
+                unit = 'Count'
+            elif not number and not unit:
+                weight_response = get(_url('weigh')).json()
+                number = float(weight_response['weight'])
+                unit = 'Kilogram'
+            else:
+                return None
+            form = { 'amount' : amount,
+                     'unit' : unit }
+            delete(_url('items/' + str(id)), data=form)
             text = 'Updated:  ' + item2text(i)
             return tellResponse(text)
 
+def expires_week(i):
+    expday = int(i['expiration']['day'])
+    expmonth = int(i['expiration']['day'])
+    return expmonth <= 12 or expday <= 9 # Yes, I hard coded the presentation date.
+
+def check_expiration_future():
+    items = get(_url('items')).json()
+    items = [i for i in items if expires_week(i)]
+
+    if len(items) == 0:
+        return tellResponse('Nothing expires in your fridge within a week.')
+    elif len(items) == 1:
+        text = item2text(items[0]) + ' is expiring with a week'
+    else:
+        text = ', '.join(item2text(i) for i in items[0:len(items)-1])
+        text += ' and ' + item2text(items[len(items)-1])
+        text += ' are expiring within a week'
+    return tellResponse(text)
+
+def expired(i):
+    expday = int(i['expiration']['day'])
+    expmonth = int(i['expiration']['day'])
+    return expmonth <= 12 or expday <= 22# Yes, I hard coded the presentation date.
+
+def check_expiration():
+    items = get(_url('items')).json()
+    items = [i for i in items if expired(i)]
+
+    if len(items) == 0:
+        return tellResponse('Nothing is expired in your drige.')
+    elif len(items) == 1:
+        text = item2text(items[0]) + ' is expired'
+    else:
+        text = ', '.join(item2text(i) for i in items[0:len(items)-1])
+        text += ' and ' + item2text(items[len(items)-1])
+        text += ' are expired'
+    return tellResponse(text)
+
+def check_running_low():
+    items = get(_url('items')).json()
+    eggs = [i for i in items if i['label'.lower()] == 'eggs'][0]
+    milk = [i for i in items if i['label'.lower()] == 'milk'][0]
+    eggs_low = eggs['amount'] < 6
+    milk_low = milk['amount'] < 1
+    text = ''
+    if not eggs_low and not milk_low:
+        text = 'You have your staple ingredients!'
+    elif eggs_low and milk_low:
+        text = 'You need both eggs and milk!'
+    else:
+        if eggs_low:
+            text = 'You need eggs!'
+        else:
+            text = 'You need milk!'
+
+    return tellResponse(text)
 
 def handler(event, context):
     request = event['request']
@@ -185,13 +256,13 @@ def handler(event, context):
             item = intent['slots']['Item'].get('value')
             return update_item(number, unit, item)
         elif intent['name'] == 'CheckExpirationFutureIntent':
-            pass
+            return check_expiration_future()
         elif intent['name'] == 'CheckExpirationIntent':
-            pass
+            return check_expiration()
         elif intent['name'] == 'CheckRunningLowIntent':
-            pass
+            return check_running_low()
         elif intent['name'] == 'MakeRecipeIntent':
-            pass
+            return make_recipe(recipe)
         elif intent['name'] == 'HelpIntent':
             pass
         else:
@@ -214,35 +285,10 @@ def tellResponse(text):
                    }
     return responseDict
 
-
-
-
-
-# DeleteItemIntent
-
-# Alexa, tell fridge helper I'm out of {item}
-
-
-# CheckExpirationFutureIntent
-
-# Alexa, ask fridge helper what expires within the next {duration}
-#   ... is expired.
-#   ... will expire in <duration>.
-#   etc.
-
-# Alexa, ask fridge helper what expires soon (see above, with timespan of 1 week)
-
-
-# CheckExpirationIntent
-
-# Alexa, ask fridge helper what's expired (see above, with timespan of 0)
-
-
 # CheckRunningLowIntent
 
 # Alexa, ask fridge helper what I'm running out of.
 #   You only have <>...
-
 
 # Alexa, ask fridge helper can I make {recipe}?
 #   You have everything you need to make <recipe>
