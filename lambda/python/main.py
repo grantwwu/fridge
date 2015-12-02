@@ -55,7 +55,7 @@ def get_items():
 # TODO: Make this actually take an expiration
 def add_item(number, unit, item):
     if not number and not unit and item:
-        weight_response = get(_url('weight')).json()
+        weight_response = get(_url('weigh')).json()
         number = float(weight_response['weight'])
         unit = 'Kilogram'
     elif not unit and number and item:
