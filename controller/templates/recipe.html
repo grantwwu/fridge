@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Recipe page for Fridge">
+  <meta name="author" content="Matt Nulph">
+  <title>Grid Component</title>
+  <!-- Bootstrap core CSS -->
+  <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link type="text/css" href="static/css/style.css" rel="stylesheet" />
+
+  <!-- Javascript for template -->
+  <script src="static/js/jquery-1.11.3.min.js"></script>
+  <script src="static/js/script.js"></script>
+  <script src="static/js/jsonTable.js"></script>
+
+</head>
+<body onload="recipe_req.reset();">
+   <table id="dataTable" style="color:red;"></table>
+	<div id="container"></div>
+	<script type="text/javascript">
+	  
+        
+
+	</script>
+    <section>
+      <form id="recipe_req">
+
+	<table>
+          <thead>
+            <tr>
+              <th colspan="5">What keywords for a recipe woudl you like to search for?</th>
+            </tr>
+            <tr>
+              <th>
+		<input type="text" id="txtRecipeKW" name="RecipeKW" required="required" placeholder="Recipe Keywords" size="60" />
+              </th>
+            </tr>
+          </thead>
+          <tfoot>
+
+          </tfoot>
+          <tbody>
+ 	</tbody>
+      </table>
+      <recipebutton class="btn btn-lg btn-primary btn-block" id="recipebutton" type="recipebutton">Lookup Recipe</recipebutton>
+      <p id="needslist"></p>
+      <p id="havelist"></p>
+      <script>
+	var webURL;
+	var ingredients;
+	$('#recipebutton').on('click', function(){
+	jQuery.ajaxSetup({async:false});
+	console.log("wtf");
+	var recipeID;
+        var apiKey = "K8D2VOshTwskF70TiTNl4VAono8La0w1";
+	var titleKeyword = $('#txtRecipeKW').val();
+        var kwurl = "http://api.bigoven.com/recipes?pg=1&rpp=25&title_kw="
+	    + titleKeyword 
+	    + "&api_key="+apiKey
+	    + "&sort=quality";
+        $.ajax({
+	    type: "GET",
+	    dataType: 'json',
+	    cache: false,
+	    url: kwurl,
+	    headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	    },
+	    success: function (data) {
+		console.log(data);
+		recipeID = data['Results'][0]['RecipeID'];
+		console.log (recipeID + " recid");
+	    }
+        });
+	console.log(recipeID + " outside recid");
+	var idurl = "http://api.bigoven.com/recipe/"
+	    + recipeID 
+	    + "?api_key="+apiKey;
+	$.ajax({
+	    type: "GET",
+	    dataType: 'json',
+	    cache: false,
+	    url: idurl,
+	    headers: {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json'
+	    },
+	    success: function (data) {
+		console.log(data);
+		webURL = data['WebURL'];
+		ingredients = data['Ingredients'];
+	    }
+        });
+	console.log (webURL + " webURL in html");
+	console.log (ingredients + " ingredients in html");
+
+	var getResult;
+	function showGetResult(getcallback) {
+	return $.get("/items", {}, getcallback);
+	}
+	showGetResult(function(data){ getResult = data;});
+	console.log (getResult);
+	var json_source = JSON.parse(getResult);
+	var arrayhn = [];
+	var arrayitems = [];
+	var json_results = {};
+	var thingswehave = [];
+	var thingsweneed = [];
+	var flag = 0;
+	for(var i=0;i<ingredients.length;i++) {
+					      console.log(ingredients[i]['Name']);
+					      for(var ii=0;ii<json_source.length;ii++){
+						  if (ingredients[i]['Name'].toUpperCase() === json_source[ii]['label'].toUpperCase()) {
+							       //json_results += "\"have\": \"" + ingredients[i]['Name'] + "\", ";
+								//arrayhn.push("\"have\"");
+								//arrayhn.push("have");
+								//arrayitems.push("\"" + ingredients[i]['Name'] + "\"");
+								//arrayitems.push(ingredients[i]['Name']);
+								thingswehave.push(ingredients[i]['Name']);
+								flag = 1						
+								break;
+							       }
+					      }
+							if(flag == 0) {
+								//json_results += "\"need\": \"" + ingredients[i]['Name'] + "\", ";
+								//arrayhn.push("\"need\"");
+								//arrayhn.push("need");
+								//arrayitems.push("\"" + ingredients[i]['Name'] + "\"");
+								//arrayitems.push(ingredients[i]['Name']);
+								thingsweneed.push(ingredients[i]['Name']);
+										 }
+								else {
+								flag = 0;
+								}
+
+				}
+		console.log(arrayhn + " have need");
+		console.log(arrayitems + " array items");
+		document.getElementById("needslist").innerHTML = "We need the following items: " + thingsweneed;
+		document.getElementById("havelist").innerHTML = "We have the following items: " + thingswehave;
+//		for(var i=0; i<arrayhn.length; i++) {
+//	                console.log(arrayhn[i] + " arrayhn " + i);
+//	                console.log(arrayitems[i] + " arrayitems " + i);
+//			json_results[arrayhn[i]] = arrayitems[i];
+//		}
+//		$.each( arrayhn, function(i,v) {
+//			json_results[v] = arrayitems[i];
+//					       });
+//		console.log(JSON.stringify(json_results));
+		//json_results = json_results.substring(0, json_results.length - 2);
+		//json_results += "}";
+//		console.log(JSON.stringify(json_results) + " json_results");
+		//var notjsonstring = JSON.parse(json_results);
+//		      var options = {
+//			source: json_results,//notjsonstring,
+//			rowClass: "classy",
+//			callback: function(){
+//			}
+//			};
+//		console.log(json_results + "jsonresults");
+					      
+	  ///////////////////////////////
+	  // Test on a pre-existing table
+//	  $("#dataTable").jsonTable({
+//	  head : ['Ingredients you have','Ingredients you need'],
+//	  json : ['have', 'need']
+//	  });
+//	  $("#dataTable").jsonTableUpdate(options);
+
+	
+	});
+      </script>
+    </form>
+  </section>
+  <!-- /container -->
+
+
+  <!-- Bootstrap core JavaScript
+       ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>
