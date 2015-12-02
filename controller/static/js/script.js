@@ -21,19 +21,25 @@ $(function() {
 });
 $(function() {
     $('updatebutton').click(function() {
-        //$.get("/items", function(data, status){
-	//    alert("Data: " + data + "\nStatus: " + status);
-	window.location.reload();
-	//});
+       	window.location.reload();
     });
 });
 $(function() {
-    $('refreshtable').click(function() {
-        $.get("/items", function(data, status){
-	    if (status = "success") {
-		return data;
-	    }
-	});
+    $('deletebutton').click(function() {
+	var label = $('#txtLabel').val();
+	var amount = $('#intAmount').val();
+        $.ajax({
+            url: '',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+	window.location.reload();
     });
 });
 function updatetable() {

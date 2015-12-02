@@ -33,7 +33,6 @@
 	  jQuery.ajaxSetup({async:true});
 	  console.log (getResult);
 	  var json_source = JSON.parse(getResult);
-	  console.log (json_source.length + "json length");
 	  for(var i=0;i<json_source.length;i++){
 			  var object = json_source[i];
 			  var tempobj = object['expiration']['month'] + "/" + object['expiration']['day'] + "/" + object['expiration']['year'];

@@ -114,4 +114,4 @@ if __name__ == "__main__":
     fake_camera_and_scale()
 #    init_camera_and_scale()
 
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)#, host='0.0.0.0')
