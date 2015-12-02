@@ -119,10 +119,15 @@ def handler(event, context):
         if intent['name'] == 'GetItemsIntent':
             return get_items()
         elif intent['name'] == 'AddItemIntent':
+            number = intent['slots']['Number'].get('value')
+            unit = intent['slots']['Unit'].get('value')
+            item = intent['slots']['Item'].get('value')
             return add_item(number, unit, item)
         elif intent['name'] == 'FindItemIntent':
+            item = intent['slots']['Item'].get('value')
             return find_item(item)
         elif intent['name'] == 'RemoveItemIntent':
+            item = intent['slots']['Item'].get('value')
             return remove_item(item)
         elif intent['name'] == 'UpdateItemIntent':
             pass

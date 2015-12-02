@@ -7,12 +7,12 @@ GetItemsIntent what items do I have in the fridge
 GetItemsIntent what I have
 GetItemsIntent what are the contents of my fridge
 
-AddItemsIntent add {Item}
-AddItemsIntent add a {Item}
-AddItemsIntent add an {Item}
-AddItemsIntent add some {Item}
-AddItemsIntent add {Number} {Item}
-AddItemsIntent add {Number} {Unit} of {Item}
+AddItemIntent add {Item}
+AddItemIntent add a {Item}
+AddItemIntent add an {Item}
+AddItemIntent add some {Item}
+AddItemIntent add {Number} {Item}
+AddItemIntent add {Number} {Unit} of {Item}
 
 FindItemIntent how many {Item} do I have
 FindItemIntent how much {Item} do I have

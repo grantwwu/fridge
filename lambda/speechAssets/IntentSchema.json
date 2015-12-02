@@ -9,16 +9,16 @@
         { "name": "Number",
           "type": "AMAZON.NUMBER" },
         { "name": "Unit",
-          "type": "FRIDGE.UNIT" },
+          "type": "FRIDGE_UNIT" },
         { "name": "Item",
-          "type": "FRIDGE.ITEM" }
+          "type": "FRIDGE_ITEM" }
       ]
     },
     {
       "intent": "FindItemIntent",
       "slots": [
         { "name": "Item",
-          "type": "FRIDGE.ITEM" }
+          "type": "FRIDGE_ITEM" }
       ]
     },
     {
@@ -27,9 +27,9 @@
         { "name": "Number",
           "type": "AMAZON.NUMBER" },
         { "name": "Unit",
-          "type": "FRIDGE.UNIT" },
+          "type": "FRIDGE_UNIT" },
         { "name": "Item",
-          "type": "FRIDGE.ITEM" }
+          "type": "FRIDGE_ITEM" }
       ]
     },
     {
@@ -38,16 +38,16 @@
         { "name": "Number",
           "type": "AMAZON.NUMBER" },
         { "name": "Unit",
-          "type": "FRIDGE.UNIT" },
+          "type": "FRIDGE_UNIT" },
         { "name": "Item",
-          "type": "FRIDGE.ITEM" }
+          "type": "FRIDGE_ITEM" }
       ]
     },
     {
       "intent": "DeleteItemIntent",
       "slots": [
         { "name": "Item",
-          "type": "FRIDGE.ITEM" }
+          "type": "FRIDGE_ITEM" }
       ]
     },
     {
@@ -60,7 +60,7 @@
       "intent": "MakeRecipeIntent",
       "slots": [
         { "name": "Recipe",
-          "type": "FRIDGE.RECIPE" }
+          "type": "FRIDGE_RECIPE" }
       ]
     },
     {
